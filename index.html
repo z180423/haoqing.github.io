@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GID-gogogo</title>
+  </head>
+  <style>
+    #text-id {
+      resize: none;
+      width: 90%;
+      height: 500px;
+    }
+  </style>
+  <script>
+    function draw_gid(jsonstr) {
+      let json_text = eval("(" + jsonstr + ")");
+      let gid_arr = [];
+      for (let q = 0, gid_len = json_text.length; q < gid_len; q++) {
+        gid_arr.push(json_text[q].gid);
+      }
+      return gid_arr;
+    }
+    function draw_text() {
+      let all_text = draw_gid(document.getElementById("text-id").value).join(
+        "\n"
+      );
+      document.getElementById("text-id").value = all_text;
+      console.log(document.getElementById("text-id").value);
+    }
+    function download(filename, text) {
+    let pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+    if (document.createEvent) {
+        let event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    } else {
+        pom.click();
+    }
+}
+  </script>
+  <body>
+    <textarea id="text-id" placeholder="please write text!"></textarea>
+    <button id="draw_text-btn" type="button" onclick="draw_text()">GID</button>
+    <button id="create-txt-btn" type="button" onclick="download('gid.txt',document.getElementById('text-id').value)">Download</button>
+    <div>需要确认两头都有英文输入的中括号[...]</div>
+    <div>复制粘贴或者从</div>
+  </body>
+</html>
